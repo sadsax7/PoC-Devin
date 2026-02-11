@@ -1,0 +1,3 @@
+"""
+Dominio - Entidades del negocio.
+"""
