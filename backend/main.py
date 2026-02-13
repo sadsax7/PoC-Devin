@@ -1,19 +1,23 @@
 """
 Punto de entrada principal de la aplicación.
 """
-from infrastructure.api.app import create_app
+
+import uvicorn
+
+from app.infrastructure.api.app import create_app
+
 
 def main() -> None:
-    """Inicia la aplicación."""
+    """Inicia la aplicación FastAPI con Uvicorn."""
     app = create_app()
-    
-    import uvicorn
+
     uvicorn.run(
         app,
         host="0.0.0.0",
         port=8000,
-        reload=True
+        reload=True,
     )
+
 
 if __name__ == "__main__":
     main()
