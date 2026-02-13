@@ -4,18 +4,17 @@ Punto de entrada principal de la aplicación.
 
 import uvicorn
 
-from app.infrastructure.api.app import create_app
-
 
 def main() -> None:
     """Inicia la aplicación FastAPI con Uvicorn."""
-    app = create_app()
-
+    # When using reload/workers, pass the application as an import string
+    # and set factory=True if the target is a factory callable.
     uvicorn.run(
-        app,
+        "app.infrastructure.api.app:create_app",
         host="0.0.0.0",
         port=8000,
         reload=True,
+        factory=True,
     )
 
 
