@@ -1,20 +1,10 @@
 """
-Configuración de la aplicación.
+Configuración de la aplicación (legacy).
+
+La configuración canónica se encuentra en app.config.settings.
+Este módulo re-exporta para compatibilidad.
 """
-from pydantic_settings import BaseSettings
 
+from app.config.settings import Settings, settings
 
-class Settings(BaseSettings):
-    """Configuración de la aplicación."""
-    
-    app_name: str = "Backend Hexagonal"
-    app_version: str = "0.1.0"
-    debug: bool = True
-    api_prefix: str = "/api/v1"
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
-
-
-settings = Settings()
+__all__ = ["Settings", "settings"]

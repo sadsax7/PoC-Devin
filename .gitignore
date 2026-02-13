@@ -7,6 +7,11 @@ backend/venv/
 backend/env/
 backend/.env
 backend/*.log
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.coverage
 
 # Frontend
 frontend/node_modules/
