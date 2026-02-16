@@ -7,6 +7,7 @@ para el sistema de autenticacion.
 from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from app.adapters.inbound.http.dependencies.container import (
@@ -320,13 +321,13 @@ async def verify_mfa(request: MfaVerifyRequest) -> Any:
             detail="Too many failed MFA attempts, please login again",
         )
     except InvalidMfaCodeError as exc:
-        raise HTTPException(
+        return JSONResponse(
             status_code=401,
-            detail={
+            content={
                 "detail": "Invalid MFA code",
                 "attempts_remaining": exc.attempts_remaining,
             },
-        ) from exc
+        )
 
     return MfaVerifyResponse(
         access_token=result.access_token,
