@@ -1,16 +1,15 @@
-"""
-Tests unitarios para la interfaz UserRepository del dominio.
-"""
+"""Tests unitarios para la interfaz UserRepositoryPort del dominio."""
 
-from app.domain.repositories import UserRepository
+from app.domain.ports.user_repository import UserRepositoryPort
 
 
-def test_user_repository_is_abstract() -> None:
-    """Caso positivo: UserRepository es una clase abstracta."""
+def test_user_repository_port_is_abstract() -> None:
+    """Caso positivo: UserRepositoryPort es una clase abstracta."""
     # Arrange & Act & Assert
-    assert hasattr(UserRepository, "create")
-    assert hasattr(UserRepository, "find_by_id")
-    assert hasattr(UserRepository, "find_by_email")
-    assert hasattr(UserRepository, "find_all")
-    assert hasattr(UserRepository, "update")
-    assert hasattr(UserRepository, "delete")
+    assert hasattr(UserRepositoryPort, "create")
+    assert hasattr(UserRepositoryPort, "find_by_phone")
+    assert hasattr(UserRepositoryPort, "find_by_email")
+    assert hasattr(UserRepositoryPort, "find_by_id")
+    assert hasattr(UserRepositoryPort, "find_all")
+    assert hasattr(UserRepositoryPort, "update")
+    assert hasattr(UserRepositoryPort, "delete")

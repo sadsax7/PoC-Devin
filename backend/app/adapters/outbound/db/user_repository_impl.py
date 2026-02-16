@@ -5,8 +5,9 @@ usando Motor (driver asincrono de MongoDB).
 """
 
 from datetime import timezone
-from typing import Any, Optional
+from typing import Any, List, Optional
 
+from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from app.domain.entities.user import User
@@ -61,6 +62,77 @@ class MongoUserRepository(UserRepositoryPort):
         result = await self._collection.insert_one(doc)
         user.id = str(result.inserted_id)
         return user
+
+    async def find_by_email(self, email: str) -> Optional[User]:
+        """Busca un usuario por email.
+
+        Args:
+            email: Correo electronico del usuario.
+
+        Returns:
+            User si existe, None en caso contrario.
+        """
+        doc = await self._collection.find_one({"email": email})
+        if doc is None:
+            return None
+        return self._doc_to_user(doc)
+
+    async def find_by_id(self, user_id: str) -> Optional[User]:
+        """Busca un usuario por ID.
+
+        Args:
+            user_id: Identificador unico del usuario.
+
+        Returns:
+            User si existe, None en caso contrario.
+        """
+        doc = await self._collection.find_one({"_id": ObjectId(user_id)})
+        if doc is None:
+            return None
+        return self._doc_to_user(doc)
+
+    async def find_all(self) -> List[User]:
+        """Obtiene todos los usuarios.
+
+        Returns:
+            Lista de todos los usuarios persistidos.
+        """
+        users: List[User] = []
+        async for doc in self._collection.find():
+            users.append(self._doc_to_user(doc))
+        return users
+
+    async def update(self, user: User) -> User:
+        """Actualiza un usuario existente.
+
+        Args:
+            user: Entidad User con datos actualizados.
+
+        Returns:
+            User actualizado.
+
+        Raises:
+            ValueError: Si el usuario no existe.
+        """
+        if user.id is None:
+            raise ValueError("User ID is required for update")
+        doc = self._user_to_doc(user)
+        result = await self._collection.replace_one({"_id": ObjectId(user.id)}, doc)
+        if result.matched_count == 0:
+            raise ValueError(f"Usuario con ID {user.id} no encontrado")
+        return user
+
+    async def delete(self, user_id: str) -> bool:
+        """Elimina un usuario por ID.
+
+        Args:
+            user_id: Identificador unico del usuario a eliminar.
+
+        Returns:
+            True si se elimino, False si no existia.
+        """
+        result = await self._collection.delete_one({"_id": ObjectId(user_id)})
+        return result.deleted_count > 0
 
     @staticmethod
     def _user_to_doc(user: User) -> dict[str, Any]:

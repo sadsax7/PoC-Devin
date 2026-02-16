@@ -1,9 +1,8 @@
-"""
-Interfaces de repositorios del dominio.
+"""Interfaces de repositorios del dominio.
 
 Re-exporta los puertos de repositorio para acceso conveniente.
 """
 
-from app.domain.repositories.user_repository import UserRepository
+from app.domain.ports.user_repository import UserRepositoryPort
 
-__all__ = ["UserRepository"]
+__all__ = ["UserRepositoryPort"]

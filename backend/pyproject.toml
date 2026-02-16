@@ -39,6 +39,7 @@ target-version = ['py310']
 
 [tool.pytest.ini_options]
 addopts = "--cov=app --cov-report=term-missing --cov-fail-under=85"
+markers = ["integration: tests that require a real MongoDB instance"]
 
 [tool.coverage.run]
 source = ["app"]

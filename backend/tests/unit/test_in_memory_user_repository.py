@@ -61,6 +61,35 @@ async def test_find_by_id_when_not_exists_then_returns_none(
 
 
 @pytest.mark.asyncio
+async def test_find_by_phone_when_exists_then_returns_user(
+    repo: InMemoryUserRepository,
+) -> None:
+    """Caso positivo: find_by_phone retorna el usuario existente."""
+    # Arrange
+    user = User(phone="+573001234567")
+    await repo.create(user)
+
+    # Act
+    found = await repo.find_by_phone("+573001234567")
+
+    # Assert
+    assert found is not None
+    assert found.phone == "+573001234567"
+
+
+@pytest.mark.asyncio
+async def test_find_by_phone_when_not_exists_then_returns_none(
+    repo: InMemoryUserRepository,
+) -> None:
+    """Caso negativo: find_by_phone retorna None si no existe."""
+    # Arrange & Act
+    result = await repo.find_by_phone("+573009999999")
+
+    # Assert
+    assert result is None
+
+
+@pytest.mark.asyncio
 async def test_find_by_email_when_exists_then_returns_user(
     repo: InMemoryUserRepository,
 ) -> None:
