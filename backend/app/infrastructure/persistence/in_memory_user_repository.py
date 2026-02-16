@@ -9,10 +9,10 @@ from typing import List, Optional
 from uuid import uuid4
 
 from app.domain.entities.user import User
-from app.domain.repositories.user_repository import UserRepository
+from app.domain.ports.user_repository import UserRepositoryPort
 
 
-class InMemoryUserRepository(UserRepository):
+class InMemoryUserRepository(UserRepositoryPort):
     """Implementación en memoria del repositorio de usuarios.
 
     Almacena usuarios en un diccionario interno. Útil para desarrollo
@@ -47,11 +47,25 @@ class InMemoryUserRepository(UserRepository):
         """
         return self._users.get(user_id)
 
+    async def find_by_phone(self, phone: str) -> Optional[User]:
+        """Busca un usuario por numero de telefono.
+
+        Args:
+            phone: Numero de telefono en formato E.164.
+
+        Returns:
+            User si existe, None en caso contrario.
+        """
+        for user in self._users.values():
+            if user.phone == phone:
+                return user
+        return None
+
     async def find_by_email(self, email: str) -> Optional[User]:
         """Busca un usuario por email.
 
         Args:
-            email: Correo electrónico del usuario.
+            email: Correo electronico del usuario.
 
         Returns:
             User si existe, None en caso contrario.

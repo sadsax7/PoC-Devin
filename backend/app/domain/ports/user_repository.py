@@ -1,5 +1,4 @@
-"""
-Interfaz del repositorio de usuarios.
+"""Puerto del repositorio de usuarios para el dominio.
 
 Define el contrato que deben implementar los adaptadores de persistencia
 para operaciones CRUD de la entidad User.
@@ -11,11 +10,11 @@ from typing import List, Optional
 from app.domain.entities.user import User
 
 
-class UserRepository(ABC):
-    """Interfaz del repositorio de usuarios.
+class UserRepositoryPort(ABC):
+    """Puerto del repositorio de usuarios.
 
-    Define las operaciones de persistencia disponibles para la entidad User.
-    Las implementaciones concretas residen en la capa de infraestructura.
+    Define las operaciones de persistencia necesarias para
+    la gestion completa de usuarios.
     """
 
     @abstractmethod
@@ -30,11 +29,11 @@ class UserRepository(ABC):
         """
 
     @abstractmethod
-    async def find_by_id(self, user_id: str) -> Optional[User]:
-        """Busca un usuario por ID.
+    async def find_by_phone(self, phone: str) -> Optional[User]:
+        """Busca un usuario por numero de telefono.
 
         Args:
-            user_id: Identificador único del usuario.
+            phone: Numero de telefono en formato E.164.
 
         Returns:
             User si existe, None en caso contrario.
@@ -45,7 +44,18 @@ class UserRepository(ABC):
         """Busca un usuario por email.
 
         Args:
-            email: Correo electrónico del usuario.
+            email: Correo electronico del usuario.
+
+        Returns:
+            User si existe, None en caso contrario.
+        """
+
+    @abstractmethod
+    async def find_by_id(self, user_id: str) -> Optional[User]:
+        """Busca un usuario por ID.
+
+        Args:
+            user_id: Identificador unico del usuario.
 
         Returns:
             User si existe, None en caso contrario.
@@ -75,8 +85,8 @@ class UserRepository(ABC):
         """Elimina un usuario.
 
         Args:
-            user_id: Identificador único del usuario a eliminar.
+            user_id: Identificador unico del usuario a eliminar.
 
         Returns:
-            True si se eliminó, False si no existía.
+            True si se elimino, False si no existia.
         """
