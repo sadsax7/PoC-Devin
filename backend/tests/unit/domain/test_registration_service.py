@@ -1,8 +1,10 @@
 """Tests unitarios para el servicio de dominio de registro."""
 
-from app.domain.services.registration_service import (validate_email,
-                                                      validate_name,
-                                                      validate_password)
+from app.domain.services.registration_service import (
+    validate_email,
+    validate_name,
+    validate_password,
+)
 
 
 def test_validate_password_when_valid_then_returns_none() -> None:

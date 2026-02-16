@@ -10,10 +10,8 @@ from functools import lru_cache
 from app.adapters.outbound.db.mongo_client import get_database
 from app.adapters.outbound.db.user_repository_impl import MongoUserRepository
 from app.adapters.outbound.kyc.kyc_client_impl import MockKycClient
-from app.adapters.outbound.security.password_hasher_impl import \
-    Argon2PasswordHasher
-from app.application.use_cases.register_user_use_case import \
-    RegisterUserUseCase
+from app.adapters.outbound.security.password_hasher_impl import Argon2PasswordHasher
+from app.application.use_cases.register_user_use_case import RegisterUserUseCase
 
 
 @lru_cache(maxsize=1)

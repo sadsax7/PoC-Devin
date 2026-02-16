@@ -8,8 +8,7 @@ incluyendo escenarios de error y transiciones de estado.
 import pytest
 
 from app.domain.entities.user import User
-from app.infrastructure.persistence.in_memory_user_repository import \
-    InMemoryUserRepository
+from app.infrastructure.persistence.in_memory_user_repository import InMemoryUserRepository
 
 
 @pytest.fixture

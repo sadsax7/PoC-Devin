@@ -9,8 +9,7 @@ import asyncio
 import pytest
 
 from app.domain.entities.user import User
-from app.infrastructure.persistence.in_memory_user_repository import \
-    InMemoryUserRepository
+from app.infrastructure.persistence.in_memory_user_repository import InMemoryUserRepository
 
 
 @pytest.fixture

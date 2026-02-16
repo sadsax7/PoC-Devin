@@ -11,11 +11,8 @@ from typing import AsyncIterator
 from fastapi import FastAPI
 
 from app.adapters.inbound.http.routers.auth_router import router as auth_router
-from app.adapters.inbound.http.routers.health_router import \
-    router as health_router
-from app.adapters.outbound.db.mongo_client import (connect_mongo,
-                                                   disconnect_mongo,
-                                                   get_database)
+from app.adapters.inbound.http.routers.health_router import router as health_router
+from app.adapters.outbound.db.mongo_client import connect_mongo, disconnect_mongo, get_database
 from app.adapters.outbound.db.user_repository_impl import MongoUserRepository
 from app.config.settings import settings
 

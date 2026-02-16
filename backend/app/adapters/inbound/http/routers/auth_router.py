@@ -9,11 +9,13 @@ from typing import Any, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.adapters.inbound.http.dependencies.container import \
-    get_register_user_use_case
+from app.adapters.inbound.http.dependencies.container import get_register_user_use_case
 from app.application.dtos.register_user_dto import RegisterUserInputDTO
 from app.application.use_cases.register_user_use_case import (
-    DuplicatePhoneError, KycRejectedError, ValidationError)
+    DuplicatePhoneError,
+    KycRejectedError,
+    ValidationError,
+)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

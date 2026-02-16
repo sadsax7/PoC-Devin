@@ -11,8 +11,11 @@ import pytest
 
 from app.application.dtos.register_user_dto import RegisterUserInputDTO
 from app.application.use_cases.register_user_use_case import (
-    DuplicatePhoneError, KycRejectedError, RegisterUserUseCase,
-    ValidationError)
+    DuplicatePhoneError,
+    KycRejectedError,
+    RegisterUserUseCase,
+    ValidationError,
+)
 from app.domain.entities.user import User
 
 

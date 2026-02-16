@@ -72,8 +72,7 @@ async def test_register_endpoint_when_duplicate_phone_then_409(
 ) -> None:
     """Caso negativo: telefono duplicado retorna 409."""
     # Arrange
-    from app.application.use_cases.register_user_use_case import \
-        DuplicatePhoneError
+    from app.application.use_cases.register_user_use_case import DuplicatePhoneError
 
     payload = {
         "phone": "+573001234567",
@@ -101,8 +100,7 @@ async def test_register_endpoint_when_kyc_rejected_then_400(
 ) -> None:
     """Caso negativo: KYC rechazado retorna 400."""
     # Arrange
-    from app.application.use_cases.register_user_use_case import \
-        KycRejectedError
+    from app.application.use_cases.register_user_use_case import KycRejectedError
 
     payload = {
         "phone": "+573001234500",
@@ -132,8 +130,7 @@ async def test_register_endpoint_when_validation_error_then_422(
 ) -> None:
     """Caso negativo: error de validacion retorna 422."""
     # Arrange
-    from app.application.use_cases.register_user_use_case import \
-        ValidationError
+    from app.application.use_cases.register_user_use_case import ValidationError
 
     payload = {
         "phone": "+573001234567",

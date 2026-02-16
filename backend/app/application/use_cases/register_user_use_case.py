@@ -4,15 +4,16 @@ Orquesta el flujo de registro: validacion, verificacion KYC,
 hashing de contrasena y persistencia del usuario.
 """
 
-from app.application.dtos.register_user_dto import (RegisterUserInputDTO,
-                                                    RegisterUserOutputDTO)
+from app.application.dtos.register_user_dto import RegisterUserInputDTO, RegisterUserOutputDTO
 from app.domain.entities.user import User
 from app.domain.ports.kyc_verification_port import KycVerificationPort
 from app.domain.ports.password_hasher_port import PasswordHasherPort
 from app.domain.ports.user_repository import UserRepositoryPort
-from app.domain.services.registration_service import (validate_email,
-                                                      validate_name,
-                                                      validate_password)
+from app.domain.services.registration_service import (
+    validate_email,
+    validate_name,
+    validate_password,
+)
 from app.domain.value_objects.phone_number import PhoneNumber
 
 

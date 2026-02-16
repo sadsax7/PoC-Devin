@@ -1,7 +1,6 @@
 """Tests unitarios para el hasher de contrasenas Argon2."""
 
-from app.adapters.outbound.security.password_hasher_impl import \
-    Argon2PasswordHasher
+from app.adapters.outbound.security.password_hasher_impl import Argon2PasswordHasher
 
 
 def test_argon2_hasher_when_valid_password_then_returns_hash() -> None:
