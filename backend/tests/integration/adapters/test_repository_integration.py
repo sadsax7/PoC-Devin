@@ -22,7 +22,7 @@ def repo() -> InMemoryUserRepository:
 async def test_full_crud_lifecycle(repo: InMemoryUserRepository) -> None:
     """Integración: ciclo CRUD completo create → read → update → delete."""
     # Arrange & Act - Create
-    user = User(email="lifecycle@example.com", password_hash="hash123")
+    user = User(phone="+573001234567", password_hash="hash123", email="lifecycle@example.com")
     created = await repo.create(user)
     assert created.id is not None
 
@@ -35,6 +35,7 @@ async def test_full_crud_lifecycle(repo: InMemoryUserRepository) -> None:
     found.email = "updated@example.com"
     updated = await repo.update(found)
     assert updated.email == "updated@example.com"
+    assert updated.phone == "+573001234567"
 
     # Act - Delete
     deleted = await repo.delete(created.id or "")
@@ -51,7 +52,7 @@ async def test_find_by_email_after_update_when_email_changed_then_found_by_new(
 ) -> None:
     """Integración: después de actualizar email, se encuentra por el nuevo."""
     # Arrange
-    user = User(email="old@example.com")
+    user = User(phone="+573001234567", email="old@example.com")
     created = await repo.create(user)
 
     # Act
@@ -73,7 +74,7 @@ async def test_create_multiple_then_find_all_returns_correct_count(
     """Integración: crear múltiples usuarios y verificar find_all."""
     # Arrange & Act
     for i in range(5):
-        await repo.create(User(email=f"user{i}@example.com"))
+        await repo.create(User(phone=f"+5730012345{i:02d}"))
 
     # Assert
     all_users = await repo.find_all()
@@ -86,18 +87,18 @@ async def test_delete_then_create_with_same_email_then_new_id(
 ) -> None:
     """Integración: eliminar y recrear con mismo email genera nuevo ID."""
     # Arrange
-    user = User(email="recycle@example.com")
+    user = User(phone="+573001234567")
     created = await repo.create(user)
     old_id = created.id
 
     # Act
     await repo.delete(old_id or "")
-    new_user = User(email="recycle@example.com")
+    new_user = User(phone="+573001234567")
     recreated = await repo.create(new_user)
 
     # Assert
     assert recreated.id != old_id
-    assert recreated.email == "recycle@example.com"
+    assert recreated.phone == "+573001234567"
 
 
 @pytest.mark.asyncio
@@ -106,7 +107,7 @@ async def test_update_nonexistent_after_delete_then_raises_error(
 ) -> None:
     """Integración: actualizar usuario eliminado lanza ValueError."""
     # Arrange
-    user = User(email="ghost@example.com")
+    user = User(phone="+573001234567")
     created = await repo.create(user)
     await repo.delete(created.id or "")
 

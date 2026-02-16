@@ -25,7 +25,7 @@ async def test_concurrent_create_when_multiple_users_then_all_persisted(
 ) -> None:
     """Concurrencia: múltiples creaciones simultáneas persisten todos los usuarios."""
     # Arrange
-    users = [User(email=f"user{i}@example.com") for i in range(10)]
+    users = [User(phone=f"+5730012345{i:02d}") for i in range(10)]
 
     # Act
     results = await asyncio.gather(*[repo.create(user) for user in users])
@@ -44,8 +44,8 @@ async def test_concurrent_create_when_same_email_then_both_created(
 ) -> None:
     """Concurrencia: dos registros simultáneos con mismo email crean ambos."""
     # Arrange
-    user_a = User(email="duplicate@example.com")
-    user_b = User(email="duplicate@example.com")
+    user_a = User(phone="+573001234567")
+    user_b = User(phone="+573001234567")
 
     # Act
     results = await asyncio.gather(repo.create(user_a), repo.create(user_b))
@@ -61,7 +61,7 @@ async def test_concurrent_read_write_when_creating_and_reading_then_no_error(
 ) -> None:
     """Concurrencia: lectura y escritura simultáneas no lanzan error."""
     # Arrange
-    user = User(email="initial@example.com")
+    user = User(phone="+573001234567")
     created = await repo.create(user)
 
     # Act
@@ -69,7 +69,7 @@ async def test_concurrent_read_write_when_creating_and_reading_then_no_error(
         await repo.find_by_id(created.id or "")
 
     async def write_task() -> None:
-        new_user = User(email="new@example.com")
+        new_user = User(phone="+573001234568")
         await repo.create(new_user)
 
     await asyncio.gather(read_task(), write_task(), read_task(), write_task())
@@ -85,7 +85,7 @@ async def test_concurrent_delete_when_same_user_then_one_succeeds(
 ) -> None:
     """Concurrencia: eliminar el mismo usuario concurrentemente, al menos uno falla."""
     # Arrange
-    user = User(email="todelete@example.com")
+    user = User(phone="+573001234567")
     created = await repo.create(user)
     user_id = created.id or ""
 
@@ -106,7 +106,7 @@ async def test_concurrent_update_when_same_user_then_last_write_wins(
 ) -> None:
     """Concurrencia: actualizaciones simultáneas del mismo usuario, última escritura gana."""
     # Arrange
-    user = User(email="original@example.com")
+    user = User(phone="+573001234567", email="original@example.com")
     created = await repo.create(user)
 
     # Act

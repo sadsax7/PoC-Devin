@@ -1,5 +1,4 @@
-"""
-Tests unitarios para InMemoryUserRepository.
+"""Tests unitarios para InMemoryUserRepository.
 
 Cubre casos positivos, negativos y edge cases.
 """
@@ -22,14 +21,14 @@ async def test_create_when_valid_user_then_assigns_id(
 ) -> None:
     """Caso positivo: create asigna un id al usuario."""
     # Arrange
-    user = User(email="test@example.com", password_hash="hashed")
+    user = User(phone="+573001234567", password_hash="hashed")
 
     # Act
     result = await repo.create(user)
 
     # Assert
     assert result.id is not None
-    assert result.email == "test@example.com"
+    assert result.phone == "+573001234567"
 
 
 @pytest.mark.asyncio
@@ -38,7 +37,7 @@ async def test_find_by_id_when_exists_then_returns_user(
 ) -> None:
     """Caso positivo: find_by_id retorna el usuario existente."""
     # Arrange
-    user = User(email="test@example.com")
+    user = User(phone="+573001234567")
     created = await repo.create(user)
 
     # Act
@@ -46,7 +45,7 @@ async def test_find_by_id_when_exists_then_returns_user(
 
     # Assert
     assert found is not None
-    assert found.email == "test@example.com"
+    assert found.phone == "+573001234567"
 
 
 @pytest.mark.asyncio
@@ -67,7 +66,7 @@ async def test_find_by_email_when_exists_then_returns_user(
 ) -> None:
     """Caso positivo: find_by_email retorna el usuario existente."""
     # Arrange
-    user = User(email="find@example.com")
+    user = User(phone="+573001234567", email="find@example.com")
     await repo.create(user)
 
     # Act
@@ -94,7 +93,7 @@ async def test_find_by_email_when_not_exists_then_returns_none(
 async def test_find_all_when_empty_then_returns_empty_list(
     repo: InMemoryUserRepository,
 ) -> None:
-    """Edge case: find_all retorna lista vacía si no hay usuarios."""
+    """Edge case: find_all retorna lista vacia si no hay usuarios."""
     # Arrange & Act
     result = await repo.find_all()
 
@@ -108,8 +107,8 @@ async def test_find_all_when_users_exist_then_returns_all(
 ) -> None:
     """Caso positivo: find_all retorna todos los usuarios."""
     # Arrange
-    await repo.create(User(email="a@example.com"))
-    await repo.create(User(email="b@example.com"))
+    await repo.create(User(phone="+573001234501"))
+    await repo.create(User(phone="+573001234502"))
 
     # Act
     result = await repo.find_all()
@@ -124,7 +123,7 @@ async def test_update_when_exists_then_updates_user(
 ) -> None:
     """Caso positivo: update modifica el usuario existente."""
     # Arrange
-    user = User(email="old@example.com")
+    user = User(phone="+573001234567", email="old@example.com")
     created = await repo.create(user)
     created.email = "new@example.com"
 
@@ -141,7 +140,7 @@ async def test_update_when_not_exists_then_raises_value_error(
 ) -> None:
     """Caso negativo: update lanza ValueError si no existe."""
     # Arrange
-    user = User(email="ghost@example.com", id="nonexistent")
+    user = User(phone="+573001234567", id="nonexistent")
 
     # Act & Assert
     with pytest.raises(ValueError, match="no encontrado"):
@@ -154,7 +153,7 @@ async def test_delete_when_exists_then_returns_true(
 ) -> None:
     """Caso positivo: delete retorna True si el usuario fue eliminado."""
     # Arrange
-    user = User(email="delete@example.com")
+    user = User(phone="+573001234567")
     created = await repo.create(user)
 
     # Act
