@@ -31,5 +31,5 @@ def test_create_app_includes_health_route() -> None:
     app = create_app()
 
     # Assert
-    routes = [route.path for route in app.routes]  # type: ignore[union-attr]
+    routes = [getattr(route, "path", None) for route in app.routes]
     assert "/health" in routes

@@ -13,7 +13,10 @@ from app.application.use_cases.verify_mfa_use_case import (
     VerifyMfaUseCase,
 )
 from app.domain.entities.user import User
-from app.domain.ports.token_provider_port import TokenProviderPort
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenProviderPort,
+)
 from app.domain.ports.user_repository import UserRepositoryPort
 
 
@@ -96,7 +99,7 @@ async def test_verify_mfa_when_expired_token_then_raises_expired() -> None:
     mock_repo = AsyncMock(spec=UserRepositoryPort)
     mock_token = MagicMock(spec=TokenProviderPort)
     rate_limiter = MfaRateLimiter()
-    mock_token.decode_token.side_effect = ValueError("Token has expired")
+    mock_token.decode_token.side_effect = TokenExpiredException("Token has expired")
     use_case = _make_use_case(mock_repo, mock_token, rate_limiter)
     input_dto = VerifyMfaInputDTO(temp_token="expired.token", code="123456")
 

@@ -9,7 +9,11 @@ import time
 from typing import Dict, Tuple
 
 from app.application.dtos.verify_mfa_dto import VerifyMfaInputDTO, VerifyMfaOutputDTO
-from app.domain.ports.token_provider_port import TokenProviderPort
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenInvalidException,
+    TokenProviderPort,
+)
 from app.domain.ports.user_repository import UserRepositoryPort
 from app.domain.services.mfa_service import verify_mfa_code
 from app.shared.audit_logger import audit_log
@@ -189,7 +193,7 @@ class VerifyMfaUseCase:
         """
         try:
             claims = self._token_provider.decode_token(token)
-        except ValueError as exc:
+        except (TokenExpiredException, TokenInvalidException) as exc:
             raise TempTokenExpiredError("Temporary token expired, please login again") from exc
 
         if claims.get("type") != "temp" or not claims.get("mfa_pending"):

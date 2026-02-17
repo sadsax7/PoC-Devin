@@ -12,6 +12,7 @@ from app.adapters.outbound.db.user_repository_impl import MongoUserRepository
 from app.adapters.outbound.kyc.kyc_client_impl import MockKycClient
 from app.adapters.outbound.security.password_hasher_impl import Argon2PasswordHasher
 from app.adapters.outbound.security.token_provider_impl import JwtTokenProvider
+from app.application.use_cases.get_user_profile_use_case import GetUserProfileUseCase
 from app.application.use_cases.login_user_use_case import LoginUserUseCase
 from app.application.use_cases.register_user_use_case import RegisterUserUseCase
 from app.application.use_cases.verify_mfa_use_case import MfaRateLimiter, VerifyMfaUseCase
@@ -103,3 +104,14 @@ def get_verify_mfa_use_case() -> VerifyMfaUseCase:
         token_provider=_get_token_provider(),
         rate_limiter=_get_mfa_rate_limiter(),
     )
+
+
+def get_user_profile_use_case() -> GetUserProfileUseCase:
+    """Crea una instancia del caso de uso de perfil de usuario con sus dependencias.
+
+    Returns:
+        Instancia configurada de GetUserProfileUseCase.
+    """
+    database = get_database()
+    user_repository = MongoUserRepository(database)
+    return GetUserProfileUseCase(user_repository=user_repository)
