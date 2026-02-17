@@ -6,6 +6,10 @@ import jwt
 import pytest
 
 from app.adapters.outbound.security.token_provider_impl import JwtTokenProvider
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenInvalidException,
+)
 
 _TEST_PRIVATE_KEY = """-----BEGIN PRIVATE KEY-----
 MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDOEdOlTaEKdCEp
@@ -119,7 +123,7 @@ def test_decode_token_when_valid_access_token_then_returns_claims() -> None:
 
 
 def test_decode_token_when_expired_then_raises_value_error() -> None:
-    """Caso negativo: token expirado lanza ValueError."""
+    """Caso negativo: token expirado lanza TokenExpiredException."""
     # Arrange
     provider = _make_provider()
     now = datetime.now(timezone.utc)
@@ -132,7 +136,7 @@ def test_decode_token_when_expired_then_raises_value_error() -> None:
     token = jwt.encode(payload, _TEST_PRIVATE_KEY, algorithm="RS256")
 
     # Act & Assert
-    with pytest.raises(ValueError, match="Token has expired"):
+    with pytest.raises(TokenExpiredException, match="Token has expired"):
         provider.decode_token(token)
 
 
@@ -142,7 +146,7 @@ def test_decode_token_when_invalid_signature_then_raises_value_error() -> None:
     provider = _make_provider()
 
     # Act & Assert
-    with pytest.raises(ValueError, match="Invalid token"):
+    with pytest.raises(TokenInvalidException, match="Invalid token"):
         provider.decode_token("invalid.token.signature")
 
 
@@ -154,7 +158,7 @@ def test_decode_token_when_tampered_then_raises_value_error() -> None:
     tampered = token[:-5] + "XXXXX"
 
     # Act & Assert
-    with pytest.raises(ValueError, match="Invalid token"):
+    with pytest.raises(TokenInvalidException, match="Invalid token"):
         provider.decode_token(tampered)
 
 
@@ -212,5 +216,5 @@ def test_decode_token_when_empty_string_then_raises_value_error() -> None:
     provider = _make_provider()
 
     # Act & Assert
-    with pytest.raises(ValueError, match="Invalid token"):
+    with pytest.raises(TokenInvalidException, match="Invalid token"):
         provider.decode_token("")

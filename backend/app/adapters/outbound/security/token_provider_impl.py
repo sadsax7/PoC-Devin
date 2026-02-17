@@ -9,7 +9,11 @@ from typing import Dict
 
 import jwt
 
-from app.domain.ports.token_provider_port import TokenProviderPort
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenInvalidException,
+    TokenProviderPort,
+)
 
 _ACCESS_TOKEN_EXPIRE_SECONDS = 1800
 _REFRESH_TOKEN_EXPIRE_SECONDS = 604800
@@ -100,7 +104,8 @@ class JwtTokenProvider(TokenProviderPort):
             Diccionario con los claims del token.
 
         Raises:
-            ValueError: Si el token es invalido, expirado o con firma incorrecta.
+            TokenExpiredException: Si el token ha expirado.
+            TokenInvalidException: Si el token es invalido o con firma incorrecta.
         """
         try:
             payload: Dict[str, object] = jwt.decode(
@@ -110,6 +115,6 @@ class JwtTokenProvider(TokenProviderPort):
             )
             return payload
         except jwt.ExpiredSignatureError as exc:
-            raise ValueError("Token has expired") from exc
+            raise TokenExpiredException("Token has expired") from exc
         except jwt.InvalidTokenError as exc:
-            raise ValueError(f"Invalid token: {exc}") from exc
+            raise TokenInvalidException(f"Invalid token: {exc}") from exc

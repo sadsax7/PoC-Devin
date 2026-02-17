@@ -16,6 +16,10 @@ from httpx import ASGITransport, AsyncClient
 from app.adapters.inbound.http.dependencies.auth import get_current_user
 from app.application.dtos.user_profile_dto import UserProfileOutputDTO
 from app.application.use_cases.get_user_profile_use_case import UserNotFoundError
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenInvalidException,
+)
 from app.infrastructure.api.app import create_app
 
 
@@ -144,7 +148,7 @@ async def test_users_me_when_invalid_token_then_returns_401(
     """Integracion negativa: token invalido retorna 401."""
     with patch("app.adapters.inbound.http.dependencies.auth._get_token_provider") as mock_tp:
         mock_provider = MagicMock()
-        mock_provider.decode_token.side_effect = ValueError("Invalid token: bad")
+        mock_provider.decode_token.side_effect = TokenInvalidException("Invalid token: bad")
         mock_tp.return_value = mock_provider
 
         response = await client.get(
@@ -163,7 +167,7 @@ async def test_users_me_when_expired_token_then_returns_401(
     """Integracion negativa: token expirado retorna 401."""
     with patch("app.adapters.inbound.http.dependencies.auth._get_token_provider") as mock_tp:
         mock_provider = MagicMock()
-        mock_provider.decode_token.side_effect = ValueError("Token has expired")
+        mock_provider.decode_token.side_effect = TokenExpiredException("Token has expired")
         mock_tp.return_value = mock_provider
 
         response = await client.get(

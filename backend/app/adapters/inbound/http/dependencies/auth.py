@@ -7,6 +7,10 @@ verificando firma, expiracion y tipo de token.
 from fastapi import HTTPException, Request
 
 from app.adapters.inbound.http.dependencies.container import _get_token_provider
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenInvalidException,
+)
 
 
 async def get_current_user(request: Request) -> str:
@@ -37,10 +41,9 @@ async def get_current_user(request: Request) -> str:
 
     try:
         payload = token_provider.decode_token(token)
-    except ValueError as exc:
-        msg = str(exc)
-        if "expired" in msg.lower():
-            raise HTTPException(status_code=401, detail="Token has expired") from exc
+    except TokenExpiredException as exc:
+        raise HTTPException(status_code=401, detail="Token has expired") from exc
+    except TokenInvalidException as exc:
         raise HTTPException(status_code=401, detail="Invalid token signature") from exc
 
     token_type = payload.get("type")

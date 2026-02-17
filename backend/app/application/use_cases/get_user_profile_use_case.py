@@ -4,6 +4,8 @@ Orquesta la consulta del perfil de usuario a partir del ID
 extraido del token JWT, sanitizando la respuesta.
 """
 
+from datetime import timezone
+
 from app.application.dtos.user_profile_dto import UserProfileInputDTO, UserProfileOutputDTO
 from app.domain.ports.user_repository import UserRepositoryPort
 
@@ -43,10 +45,14 @@ class GetUserProfileUseCase:
         if user is None:
             raise UserNotFoundError("User not found")
 
+        # Asegurar que created_at este en UTC antes de formatear con sufijo 'Z'
+        if user.created_at.tzinfo is None:
+            created_at_utc = user.created_at.replace(tzinfo=timezone.utc)
+        else:
+            created_at_utc = user.created_at.astimezone(timezone.utc)
+
         created_at_str = (
-            user.created_at.strftime("%Y-%m-%dT%H:%M:%S.")
-            + user.created_at.strftime("%f")[:3]
-            + "Z"
+            created_at_utc.strftime("%Y-%m-%dT%H:%M:%S.") + created_at_utc.strftime("%f")[:3] + "Z"
         )
 
         return UserProfileOutputDTO(

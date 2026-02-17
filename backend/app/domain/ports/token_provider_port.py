@@ -8,6 +8,14 @@ from abc import ABC, abstractmethod
 from typing import Dict
 
 
+class TokenExpiredException(Exception):
+    """Excepcion lanzada cuando un token JWT ha expirado."""
+
+
+class TokenInvalidException(Exception):
+    """Excepcion lanzada cuando un token JWT es invalido o tiene firma incorrecta."""
+
+
 class TokenProviderPort(ABC):
     """Puerto para generacion y validacion de tokens JWT.
 
@@ -60,5 +68,6 @@ class TokenProviderPort(ABC):
             Diccionario con los claims del token.
 
         Raises:
-            ValueError: Si el token es invalido, expirado o con firma incorrecta.
+            TokenExpiredException: Si el token ha expirado.
+            TokenInvalidException: Si el token es invalido o tiene firma incorrecta.
         """

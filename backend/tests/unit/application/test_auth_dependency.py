@@ -6,6 +6,10 @@ import pytest
 from fastapi import HTTPException
 
 from app.adapters.inbound.http.dependencies.auth import get_current_user
+from app.domain.ports.token_provider_port import (
+    TokenExpiredException,
+    TokenInvalidException,
+)
 
 
 def _make_request(auth_header: str | None = None) -> MagicMock:
@@ -77,7 +81,7 @@ async def test_get_current_user_when_invalid_token_then_raises_401() -> None:
     # Arrange
     request = _make_request("Bearer invalid.token")
     mock_provider = MagicMock()
-    mock_provider.decode_token.side_effect = ValueError("Invalid token: bad signature")
+    mock_provider.decode_token.side_effect = TokenInvalidException("Invalid token: bad signature")
 
     # Act & Assert
     with patch(
@@ -96,7 +100,7 @@ async def test_get_current_user_when_expired_token_then_raises_401() -> None:
     # Arrange
     request = _make_request("Bearer expired.token")
     mock_provider = MagicMock()
-    mock_provider.decode_token.side_effect = ValueError("Token has expired")
+    mock_provider.decode_token.side_effect = TokenExpiredException("Token has expired")
 
     # Act & Assert
     with patch(
