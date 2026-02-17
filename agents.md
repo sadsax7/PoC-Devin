@@ -36,8 +36,8 @@ Reglas:
 - Arquitectura Hexagonal (Ports & Adapters):
   - `app/domain/`: entidades, value objects, servicios de dominio, puertos (interfaces).
   - `app/application/`: casos de uso, DTOs de entrada/salida.
-  - `app/infrastructure/adapters/inbound/http/`: routers FastAPI, mapeado Request/Response ↔ DTOs.
-  - `app/infrastructure/adapters/outbound/`: implementaciones de puertos (DB, KYC, security, messaging).
+  - `app/adapters/inbound/http/`: routers FastAPI, mapeado Request/Response ↔ DTOs.
+  - `app/adapters/outbound/`: implementaciones de puertos (DB, KYC, security, messaging).
   - `app/config/`: configuración y wiring.
   - `app/shared/`: utilidades compartidas.
 - Principio clave: el **dominio no depende** de FastAPI, Motor u otros detalles de infraestructura.
@@ -96,10 +96,15 @@ Estas reglas aplican a **toda** entrega (nuevo código o cambios).
   - **eslint-plugin-unused-imports** (^4.3.0): detección de imports no usados.
 - Formato: **Prettier** (^3.8.1)
 - Typing: **TypeScript** (^5.9.3) con `tsconfig.json` estricto
-- Tests unitarios: **Mocha** (^11.3.0) + **Chai** (^6.2.2) + **Sinon** (^21.0.1)
-- Coverage: **nyc** (^17.1.0)
+- Tests unitarios: **Mocha** (^11.3.0) + **Chai** (^4.5.0) + **Sinon** (^21.0.1)
+- Coverage: **c8** (V8-nativo, reemplaza a nyc para compatibilidad ESM)
+- TypeScript loader: **tsx** (reemplaza ts-node para compatibilidad con ESM en Node >=20)
 - Environment de pruebas: **jsdom** (^27.4.0) para simular DOM
 - El agente debe seguir la convención de nombres, ubicación de tests y scripts de `package.json`.
+
+> **Nota de migración (Sprint 1 — HU-FE-00):** Se reemplazó `nyc` por `c8` y `ts-node` por
+> `tsx` para compatibilidad con ESM y Node v24. Los scripts de `package.json`
+> (`npm test`, `npm run test:coverage`) son la fuente de verdad para ejecutar tests.
 
 ## 4) Estándares de implementación (prácticos)
 
@@ -293,7 +298,7 @@ def test_register_user_when_kyc_service_down_then_raises_service_error(): ...
   - Usar jsdom para simular DOM.
   - **OBLIGATORIO**: Incluir casos de error de red, timeout y transiciones de estado.
 - Nombres descriptivos: `should_render_with_default_props_when_disabled`.
-- Cobertura con nyc >= 85%.
+- Cobertura con c8 >= 85% (`npm run test:coverage`).
 
 ##### 5.2.7.1 Tipos de tests obligatorios (Frontend)
 
@@ -409,7 +414,7 @@ Para cada Work Item, el agente debe producir:
 4. **Verificación local**
 - Ejecutar las herramientas de calidad configuradas en el repo:
   - Backend: `black`, `isort`, `ruff`, `mypy`, `pytest`, `pytest --cov`.
-  - Frontend: `npm run lint`, `npx prettier --check`, `tsc --noEmit`, `npm test`, `nyc npm test`.
+  - Frontend: `npm run lint`, `npx prettier --check`, `tsc --noEmit`, `npm test`, `npm run test:coverage`.
 
 5. **Documentación**
 - Backend: Google Docstrings en módulos, clases y funciones públicas.
@@ -440,7 +445,7 @@ El PR solo se considera listo para review si cumple **todos** los criterios apli
 - [ ] **Prettier** (^3.8.1): formato aplicado (`npx prettier --check .`).
 - [ ] **TypeScript** (^5.9.3): compilación sin errores (`tsc --noEmit`).
 - [ ] **Mocha** (^11.3.0): todos los tests pasan (`npm test`).
-- [ ] **Cobertura**: >= 85% en el scope del cambio (`nyc npm test`).
+- [ ] **Cobertura**: >= 85% en el scope del cambio (`npm run test:coverage`).
 - [ ] **Tamaño de archivo**: ningún archivo supera 500 líneas.
 - [ ] **TSDoc**: componentes, hooks y funciones públicas documentadas.
 - [ ] **Atomic Design**: componentes en la capa correcta (atoms/molecules/organisms/templates).

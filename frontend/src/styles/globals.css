@@ -1,0 +1,41 @@
+/**
+ * @fileoverview Global CSS — Billetera Virtual PoC.
+ *
+ * Configura Tailwind CSS layers, fuente Inter vía Google Fonts,
+ * y la estrategia de "Inversión Total" para dark mode.
+ *
+ * @remarks
+ * - HU-FE-00: Acceptance Criteria #1 (Inter), #2 (tokens), #3 (dark mode).
+ * - Los tokens de color se definen en tailwind.config.js.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tipografía base: Inter, antialias habilitado.
+   * Dark mode: inversión total de fondo y texto.
+   */
+  body {
+    @apply font-sans antialiased bg-white text-black;
+    @apply dark:bg-bg-dark dark:text-text-light;
+  }
+
+  /**
+   * Reset de links para dark mode.
+   */
+  a {
+    @apply text-primary hover:underline;
+  }
+
+  /**
+   * Focus ring accesible con color primario.
+   */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}

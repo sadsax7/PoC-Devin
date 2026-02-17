@@ -1,8 +1,6 @@
 {
-  "require": ["ts-node/register"],
+  "require": ["tsx", "tests/setup.ts"],
   "extensions": ["ts", "tsx", "js"],
   "spec": ["tests/**/*.spec.ts", "tests/**/*.spec.tsx"],
-  "node-option": [
-    "loader=ts-node/esm"
-  ]
+  "timeout": 10000
 }

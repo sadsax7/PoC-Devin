@@ -18,7 +18,7 @@ Monorepo con Backend (Python + Poetry) y Frontend (Next.js)
 - **Estructura:**
   - `application/` - Casos de uso
   - `domain/` - Entidades y reglas de negocio
-  - `infrastructure/` - Adaptadores e implementaciones
+  - `adapters/` - Adaptadores e implementaciones
 
 ### Configurar Backend
 

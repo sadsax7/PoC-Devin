@@ -5,18 +5,22 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-        },
+        /** Token primario institucional — naranja Billetera Virtual */
+        primary: '#FF6B00',
+        /** Fondo oscuro institucional */
+        'bg-dark': '#000000',
+        /** Texto claro sobre fondos oscuros */
+        'text-light': '#FFFFFF',
+      },
+      fontFamily: {
+        /** Fuente institucional — Inter de Google Fonts */
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },
   plugins: [],
-}
+};

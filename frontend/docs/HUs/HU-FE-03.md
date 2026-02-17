@@ -123,7 +123,7 @@ DEFINITION OF DONE (Global Policy):
 1. **Formato:** **Prettier** ejecutado en todo el código (`npm run format`).
 2. **Linting:** **ESLint** pasando sin errores ni warnings (`npm run lint`).
 3. **Typing:** **TypeScript Strict Mode** sin errores (`npm run type-check`).
-4. **Cobertura de Pruebas:** >= 85% en líneas, statements, funciones y branches (medido con `nyc`).
+4. **Cobertura de Pruebas:** >= 85% en líneas, statements, funciones y branches (medido con `c8`).
 5. **Framework de Testing:** Usar **Mocha + Chai + Sinon** (NO Jest).
 6. **Tipos de Tests:** Incluir casos positivos, negativos, edge cases, interacciones, estados, accesibilidad y variaciones de props (ver FRONTEND-GUIDELINES.md sección 7.3.2).
 7. **Docs:** Componentes documentados con **TSDoc** (props, comportamiento, ejemplos).
@@ -138,7 +138,7 @@ DEFINITION OF DONE (Global Policy):
 
 1. **DO NOT DELETE CONFIGURATION FILES:**
    - `Frontend/web/.mocharc.json` (Mocha test configuration)
-   - `Frontend/web/.nycrc.json` (Coverage thresholds)
+   - `Frontend/web/package.json` (c8 coverage thresholds)
    - `PoC/.gitignore` (project-wide ignore rules)
    - ANY file in `Frontend/web/` root that ends in `.json`, `.mjs`, `.ts`, `.config.*`
    - If you think a config file should be removed, STOP and ask first.
@@ -149,7 +149,7 @@ DEFINITION OF DONE (Global Policy):
    - Follow Atomic Design hierarchy: atoms → molecules → organisms → templates → pages.
 
 3. **QUALITY GATES (BLOCKERS):**
-   - Coverage >= 85% (nyc npm test)
+   - Coverage >= 85% (npm run test:coverage)
    - All 7 test types implemented: positive, negative, edge cases, interactions, state, accessibility, props variations.
    - TypeScript strict mode (tsc --noEmit must pass).
    - All DoD checks passing before committing.

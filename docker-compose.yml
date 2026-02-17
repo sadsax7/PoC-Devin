@@ -1,0 +1,52 @@
+# ==============================================================================
+# Docker Compose — Billetera Virtual PoC
+# Servicios de infraestructura local para desarrollo.
+# ==============================================================================
+
+services:
+  # --- MongoDB 7.0 (Desarrollo) ---
+  mongodb:
+    image: mongo:7.0
+    container_name: billetera_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: billetera_db
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # --- MongoDB 7.0 (Tests de Integración) ---
+  mongodb-test:
+    image: mongo:7.0
+    container_name: billetera_mongodb_test
+    restart: unless-stopped
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: billetera_db_test
+    tmpfs:
+      - /data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mongo_data:
+    driver: local
+  mongo_config:
+    driver: local

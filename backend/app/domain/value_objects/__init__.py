@@ -1,5 +1,6 @@
 """
 Value Objects del dominio.
 
-Los value objects son objetos inmutables sin identidad propia.
+Objetos inmutables definidos por sus atributos, sin identidad propia.
+Ejemplos: PhoneNumber, HashedPassword, JwtToken.
 """

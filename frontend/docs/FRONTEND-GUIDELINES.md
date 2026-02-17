@@ -261,6 +261,7 @@ Checklist:
 #### 7.3.1. Requisitos de cobertura y calidad
 
 - **Cobertura mínima:** >= 85% en líneas, statements, funciones y branches para el scope del cambio (módulo/componente afectado).
+- **Herramienta de coverage:** Se usa **c8** (V8-nativo) con loader **tsx** para Mocha. Ejecutar con `npm run test:coverage`. Umbrales configurados en `package.json`. _Migrado desde nyc/ts-node en HU-FE-00 por compatibilidad con ESM y Node >=20._
 - **Complejidad ciclomática:** < 10 por función/método (verificar con SonarJS ESLint plugin).
 - **Tamaño de archivo:** Máximo 500 líneas por archivo (dividir/refactor si se excede).
 

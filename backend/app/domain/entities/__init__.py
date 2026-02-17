@@ -1,5 +1,6 @@
 """
 Entidades del dominio.
 
-Las entidades representan los objetos del negocio con identidad única.
+Las entidades representan objetos con identidad propia y ciclo de vida
+dentro del contexto de la billetera virtual.
 """
