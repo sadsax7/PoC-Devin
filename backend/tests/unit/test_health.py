@@ -49,7 +49,7 @@ class TestSettings:
         # Assert
         assert config.jwt_private_key_path.endswith(".pem")
         assert config.jwt_public_key_path.endswith(".pem")
-        assert config.jwt_access_token_expire_minutes == 15
+        assert config.jwt_access_token_expire_minutes == 30
         assert config.jwt_refresh_token_expire_days == 7
 
     def test_settings_when_kyc_defaults_then_mock_enabled(self) -> None:

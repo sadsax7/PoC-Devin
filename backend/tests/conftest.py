@@ -121,7 +121,7 @@ def mock_token_provider() -> MagicMock:
     mock = MagicMock()
     mock.generate_access_token = MagicMock(return_value="mocked.access.token")
     mock.generate_refresh_token = MagicMock(return_value="mocked.refresh.token")
-    mock.generate_mfa_token = MagicMock(return_value="mocked.mfa.token")
+    mock.generate_temp_token = MagicMock(return_value="mocked.temp.token")
     mock.verify_token = MagicMock(return_value={"sub": "test_user_id", "type": "access"})
     return mock
 
@@ -135,4 +135,16 @@ def mock_event_publisher() -> MagicMock:
     """
     mock = MagicMock()
     mock.publish = AsyncMock()
+    return mock
+
+
+@pytest.fixture
+def mock_mfa_verifier() -> MagicMock:
+    """Mock del puerto MfaVerifierPort para unit tests.
+
+    Returns:
+        MagicMock: Mock que simula verificación de código MFA.
+    """
+    mock = MagicMock()
+    mock.verify_code = MagicMock(return_value=True)
     return mock

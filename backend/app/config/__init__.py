@@ -45,8 +45,9 @@ class Settings(BaseSettings):
     # JWT
     jwt_private_key_path: str = "./keys/private.pem"
     jwt_public_key_path: str = "./keys/public.pem"
-    jwt_access_token_expire_minutes: int = 15
+    jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
+    jwt_temp_token_expire_minutes: int = 5
 
     # KYC
     kyc_service_url: str = "http://localhost:8081/kyc"
