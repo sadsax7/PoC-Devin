@@ -22,4 +22,6 @@ export {
   type PasswordStrengthIndicatorProps,
   type PasswordStrength,
 } from './PasswordStrengthIndicator';
+export { OtpCodeInput } from './OtpCodeInput';
+export { type OtpCodeInputProps } from './OtpCodeInput';
 /* c8 ignore stop */

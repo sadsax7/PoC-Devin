@@ -23,4 +23,6 @@ export { ErrorMessage } from './ErrorMessage';
 export { type ErrorMessageProps } from './ErrorMessage';
 export { SuccessMessage } from './SuccessMessage';
 export { type SuccessMessageProps } from './SuccessMessage';
+export { OtpDigitInput } from './OtpDigitInput';
+export { type OtpDigitInputProps } from './OtpDigitInput';
 /* c8 ignore stop */
