@@ -1,3 +1,4 @@
+/* c8 ignore start — barrel re-exports contain no testable logic */
 /**
  * @fileoverview Organisms barrel export.
  *
@@ -14,5 +15,5 @@
  * ```
  */
 
-// Export organisms here as they are created.
-// Example: export { LoginForm } from './LoginForm';
+export { HeroSection, type HeroSectionProps } from './HeroSection';
+/* c8 ignore stop */

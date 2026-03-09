@@ -1,3 +1,4 @@
+/* c8 ignore start — barrel re-exports contain no testable logic */
 /**
  * @fileoverview Atoms barrel export.
  *
@@ -14,5 +15,6 @@
  * ```
  */
 
-// Export atoms here as they are created.
-// Example: export { Button } from './Button';
+export { Button } from './Button';
+export { type ButtonProps, type ButtonVariant } from './Button';
+/* c8 ignore stop */

@@ -1,23 +1,15 @@
 /**
- * Home page — temporary placeholder.
+ * Home page — Landing page with hero section and access buttons.
  *
  * @remarks
- * This page will be replaced by HU-FE-01 (Landing page).
- * For now it redirects to the Styleguide to validate HU-FE-00.
+ * HU-FE-01: Landing page with "Ingresar" and "Registrarse" CTAs.
+ * FRONTEND-GUIDELINES.md §3.5 — Pages: assemble templates/organisms, no logic.
  *
- * @returns The home page component.
+ * @returns The landing page component.
  */
+
+import { HeroSection } from '@/components/organisms';
+
 export default function Home(): React.ReactElement {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-bg-dark p-8">
-      <h1 className="text-4xl font-bold text-text-light mb-4">Billetera Virtual</h1>
-      <p className="text-text-light/70 mb-8">PoC — Sprint 1</p>
-      <a
-        href="/styleguide"
-        className="rounded-lg bg-primary px-6 py-3 font-semibold text-text-light transition hover:opacity-90"
-      >
-        Ver Styleguide
-      </a>
-    </main>
-  );
+  return <HeroSection />;
 }
