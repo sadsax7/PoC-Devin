@@ -18,6 +18,7 @@ from app.adapters.outbound.messaging.event_publisher_memory import InMemoryEvent
 from app.adapters.outbound.security.mfa_verifier_impl import MfaVerifierImpl
 from app.adapters.outbound.security.password_hasher_impl import PasswordHasherImpl
 from app.adapters.outbound.security.token_provider_impl import TokenProviderImpl
+from app.application.use_cases.get_user_profile import GetUserProfileUseCase
 from app.application.use_cases.login_user import LoginUserUseCase
 from app.application.use_cases.register_user import RegisterUserUseCase
 from app.application.use_cases.verify_mfa import VerifyMfaUseCase
@@ -196,3 +197,17 @@ def get_verify_mfa_use_case(
         event_publisher=event_publisher,
         attempt_tracker=attempt_tracker,
     )
+
+
+def get_get_user_profile_use_case(
+    user_repository: UserRepository = Depends(get_user_repository),
+) -> GetUserProfileUseCase:
+    """Provee el caso de uso GetUserProfile con sus dependencias.
+
+    Args:
+        user_repository: Puerto de persistencia.
+
+    Returns:
+        GetUserProfileUseCase completamente inyectado.
+    """
+    return GetUserProfileUseCase(user_repository=user_repository)

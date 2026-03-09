@@ -14,6 +14,7 @@ from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.adapters.inbound.http.routers.auth_router import router as auth_router
+from app.adapters.inbound.http.routers.users_router import router as users_router
 from app.adapters.outbound.db.user_repository_impl import UserRepositoryImpl
 from app.config import settings
 
@@ -52,6 +53,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_router)
+app.include_router(users_router)
 
 
 @app.get("/health", tags=["Infrastructure"])
