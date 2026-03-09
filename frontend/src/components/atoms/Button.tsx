@@ -54,6 +54,12 @@ export interface ButtonProps {
 
   /** Accessible label when visual text is insufficient. */
   ariaLabel?: string;
+
+  /** Whether the button should stretch to full container width. */
+  fullWidth?: boolean;
+
+  /** Indicates the button is busy (e.g. form submitting). */
+  ariaBusy?: boolean;
 }
 
 /**
@@ -91,12 +97,22 @@ export function Button({
   onClick,
   className = '',
   ariaLabel,
+  fullWidth = false,
+  ariaBusy,
 }: ButtonProps): React.ReactElement {
-  const classes = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${className}`.trim();
+  const widthClass = fullWidth ? 'w-full' : '';
+  const classes = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${widthClass} ${className}`.trim();
 
   if (href && !disabled) {
     return (
-      <a href={href} className={classes} onClick={onClick} aria-label={ariaLabel} role="link">
+      <a
+        href={href}
+        className={classes}
+        onClick={onClick}
+        aria-label={ariaLabel}
+        aria-busy={ariaBusy}
+        role="link"
+      >
         {children}
       </a>
     );
@@ -109,6 +125,7 @@ export function Button({
       disabled={disabled}
       onClick={onClick}
       aria-label={ariaLabel}
+      aria-busy={ariaBusy}
     >
       {children}
     </button>

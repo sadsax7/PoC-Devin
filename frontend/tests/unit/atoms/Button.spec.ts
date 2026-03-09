@@ -32,7 +32,7 @@ describe('Button', () => {
   describe('Positive cases', () => {
     it('should_render_button_element_when_no_href_provided', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 'Click me' });
+      const element = React.createElement(Button, null, 'Click me');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -44,10 +44,7 @@ describe('Button', () => {
 
     it('should_render_anchor_element_when_href_provided', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        href: '/auth/login',
-        children: 'Ingresar',
-      });
+      const element = React.createElement(Button, { href: '/auth/login' }, 'Ingresar');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -60,7 +57,7 @@ describe('Button', () => {
 
     it('should_render_solid_variant_by_default', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 'Solid' });
+      const element = React.createElement(Button, null, 'Solid');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -72,10 +69,7 @@ describe('Button', () => {
 
     it('should_render_outline_variant_when_specified', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'outline',
-        children: 'Outline',
-      });
+      const element = React.createElement(Button, { variant: 'outline' }, 'Outline');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -105,7 +99,7 @@ describe('Button', () => {
 
     it('should_not_crash_when_children_is_null', () => {
       // Arrange
-      const element = React.createElement(Button, { children: null });
+      const element = React.createElement(Button, null, null);
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -116,11 +110,11 @@ describe('Button', () => {
 
     it('should_render_button_instead_of_anchor_when_href_provided_but_disabled', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        href: '/auth/login',
-        disabled: true,
-        children: 'Disabled Link',
-      });
+      const element = React.createElement(
+        Button,
+        { href: '/auth/login', disabled: true },
+        'Disabled Link',
+      );
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -138,7 +132,7 @@ describe('Button', () => {
   describe('Edge cases', () => {
     it('should_handle_empty_string_children', () => {
       // Arrange
-      const element = React.createElement(Button, { children: '' });
+      const element = React.createElement(Button, null, '');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -149,7 +143,7 @@ describe('Button', () => {
 
     it('should_handle_numeric_children', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 42 });
+      const element = React.createElement(Button, null, 42);
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -160,10 +154,7 @@ describe('Button', () => {
 
     it('should_handle_empty_className', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        className: '',
-        children: 'Test',
-      });
+      const element = React.createElement(Button, { className: '' }, 'Test');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -174,10 +165,7 @@ describe('Button', () => {
 
     it('should_handle_empty_href_string_as_no_href', () => {
       // Arrange — empty string is falsy, should render <button>
-      const element = React.createElement(Button, {
-        href: '',
-        children: 'Test',
-      });
+      const element = React.createElement(Button, { href: '' }, 'Test');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -194,10 +182,7 @@ describe('Button', () => {
     it('should_include_onClick_handler_attribute_on_button', () => {
       // Arrange
       const handler = sinon.stub();
-      const element = React.createElement(Button, {
-        onClick: handler,
-        children: 'Clickable',
-      });
+      const element = React.createElement(Button, { onClick: handler }, 'Clickable');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -210,11 +195,7 @@ describe('Button', () => {
     it('should_include_onClick_handler_attribute_on_anchor', () => {
       // Arrange
       const handler = sinon.stub();
-      const element = React.createElement(Button, {
-        href: '/test',
-        onClick: handler,
-        children: 'Link',
-      });
+      const element = React.createElement(Button, { href: '/test', onClick: handler }, 'Link');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -226,7 +207,7 @@ describe('Button', () => {
 
     it('should_set_type_button_to_prevent_form_submission', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 'No Submit' });
+      const element = React.createElement(Button, null, 'No Submit');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -242,7 +223,7 @@ describe('Button', () => {
   describe('State transition cases', () => {
     it('should_render_enabled_state_by_default', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 'Active' });
+      const element = React.createElement(Button, null, 'Active');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -253,10 +234,7 @@ describe('Button', () => {
 
     it('should_render_disabled_state_when_disabled_true', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        disabled: true,
-        children: 'Disabled',
-      });
+      const element = React.createElement(Button, { disabled: true }, 'Disabled');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -269,10 +247,7 @@ describe('Button', () => {
 
     it('should_apply_hover_styles_for_solid_variant', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'solid',
-        children: 'Hover',
-      });
+      const element = React.createElement(Button, { variant: 'solid' }, 'Hover');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -283,10 +258,7 @@ describe('Button', () => {
 
     it('should_apply_hover_styles_for_outline_variant', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'outline',
-        children: 'Hover',
-      });
+      const element = React.createElement(Button, { variant: 'outline' }, 'Hover');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -302,10 +274,7 @@ describe('Button', () => {
   describe('Accessibility cases', () => {
     it('should_render_aria_label_when_provided', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        ariaLabel: 'Iniciar sesión',
-        children: 'Ingresar',
-      });
+      const element = React.createElement(Button, { ariaLabel: 'Iniciar sesión' }, 'Ingresar');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -316,7 +285,7 @@ describe('Button', () => {
 
     it('should_have_focus_visible_outline_classes', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 'Focus' });
+      const element = React.createElement(Button, null, 'Focus');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -329,10 +298,7 @@ describe('Button', () => {
 
     it('should_have_role_link_when_rendered_as_anchor', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        href: '/auth/login',
-        children: 'Ingresar',
-      });
+      const element = React.createElement(Button, { href: '/auth/login' }, 'Ingresar');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -343,7 +309,7 @@ describe('Button', () => {
 
     it('should_not_omit_aria_label_when_not_provided', () => {
       // Arrange
-      const element = React.createElement(Button, { children: 'Text only' });
+      const element = React.createElement(Button, null, 'Text only');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -360,10 +326,7 @@ describe('Button', () => {
   describe('Props variations', () => {
     it('should_apply_custom_className_alongside_default_classes', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        className: 'my-custom-class',
-        children: 'Styled',
-      });
+      const element = React.createElement(Button, { className: 'my-custom-class' }, 'Styled');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -375,10 +338,7 @@ describe('Button', () => {
 
     it('should_render_solid_variant_explicitly', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'solid',
-        children: 'Solid',
-      });
+      const element = React.createElement(Button, { variant: 'solid' }, 'Solid');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -389,10 +349,7 @@ describe('Button', () => {
 
     it('should_render_outline_variant_explicitly', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'outline',
-        children: 'Outline',
-      });
+      const element = React.createElement(Button, { variant: 'outline' }, 'Outline');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -404,11 +361,11 @@ describe('Button', () => {
 
     it('should_combine_variant_and_disabled_props', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'outline',
-        disabled: true,
-        children: 'Disabled Outline',
-      });
+      const element = React.createElement(
+        Button,
+        { variant: 'outline', disabled: true },
+        'Disabled Outline',
+      );
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -420,11 +377,11 @@ describe('Button', () => {
 
     it('should_combine_variant_href_and_children', () => {
       // Arrange
-      const element = React.createElement(Button, {
-        variant: 'outline',
-        href: '/auth/login',
-        children: 'Ingresar',
-      });
+      const element = React.createElement(
+        Button,
+        { variant: 'outline', href: '/auth/login' },
+        'Ingresar',
+      );
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -439,7 +396,7 @@ describe('Button', () => {
     it('should_render_with_complex_children', () => {
       // Arrange
       const child = React.createElement('span', { key: 'icon' }, '→ Go');
-      const element = React.createElement(Button, { children: child });
+      const element = React.createElement(Button, null, child);
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -450,10 +407,7 @@ describe('Button', () => {
 
     it('should_render_button_when_href_undefined_and_disabled_true', () => {
       // Arrange — branch: href is undefined, disabled is true
-      const element = React.createElement(Button, {
-        disabled: true,
-        children: 'No Link Disabled',
-      });
+      const element = React.createElement(Button, { disabled: true }, 'No Link Disabled');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -465,11 +419,11 @@ describe('Button', () => {
 
     it('should_render_anchor_when_href_present_and_disabled_false', () => {
       // Arrange — branch: href + not disabled → anchor
-      const element = React.createElement(Button, {
-        href: '/path',
-        disabled: false,
-        children: 'Link Active',
-      });
+      const element = React.createElement(
+        Button,
+        { href: '/path', disabled: false },
+        'Link Active',
+      );
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -481,7 +435,7 @@ describe('Button', () => {
 
     it('should_use_default_variant_solid_when_not_specified', () => {
       // Arrange — exercise default variant branch
-      const element = React.createElement(Button, { children: 'Default Solid' });
+      const element = React.createElement(Button, null, 'Default Solid');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -493,10 +447,7 @@ describe('Button', () => {
 
     it('should_use_default_disabled_false_when_not_specified', () => {
       // Arrange — exercise default disabled branch
-      const element = React.createElement(Button, {
-        href: '/test',
-        children: 'Not Disabled',
-      });
+      const element = React.createElement(Button, { href: '/test' }, 'Not Disabled');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -507,7 +458,7 @@ describe('Button', () => {
 
     it('should_not_set_aria_label_attribute_when_undefined', () => {
       // Arrange — ariaLabel undefined branch
-      const element = React.createElement(Button, { children: 'Plain' });
+      const element = React.createElement(Button, null, 'Plain');
 
       // Act
       const html = ReactDOMServer.renderToStaticMarkup(element);
@@ -517,4 +468,3 @@ describe('Button', () => {
     });
   });
 });
-

@@ -1,3 +1,4 @@
+/* c8 ignore start — barrel re-exports contain no testable logic */
 /**
  * @fileoverview Molecules barrel export.
  *
@@ -14,5 +15,11 @@
  * ```
  */
 
-// Export molecules here as they are created.
-// Example: export { FormField } from './FormField';
+export { FormField } from './FormField';
+export { type FormFieldProps } from './FormField';
+export { PasswordStrengthIndicator, calculateStrength } from './PasswordStrengthIndicator';
+export {
+  type PasswordStrengthIndicatorProps,
+  type PasswordStrength,
+} from './PasswordStrengthIndicator';
+/* c8 ignore stop */

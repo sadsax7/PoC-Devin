@@ -16,4 +16,10 @@
  */
 
 export { HeroSection, type HeroSectionProps } from './HeroSection';
+export { RegisterForm } from './RegisterForm';
+export {
+  type RegisterFormProps,
+  type RegisterFormValues,
+  type RegisterFormErrors,
+} from './RegisterForm';
 /* c8 ignore stop */
