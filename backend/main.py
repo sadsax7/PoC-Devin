@@ -7,12 +7,14 @@ de health check según HU-BE-00 Acceptance Criteria #4.
 
 from __future__ import annotations
 
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 
+from app.adapters.inbound.http.routers.auth_router import router as auth_router
+from app.adapters.outbound.db.user_repository_impl import UserRepositoryImpl
 from app.config import settings
 
 
@@ -21,6 +23,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Gestiona el ciclo de vida de la aplicación.
 
     Establece conexión a MongoDB al iniciar y la cierra al detener.
+    Crea los índices necesarios (HU-BE-01 AC#1).
 
     Args:
         app: Instancia de FastAPI.
@@ -33,6 +36,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     await app.state.mongo_client.admin.command("ping")
 
+    # Crear índices al inicio (HU-BE-01 AC#1)
+    user_repo = UserRepositoryImpl(app.state.db)
+    await user_repo.ensure_indexes()
+
     yield
 
     app.state.mongo_client.close()
@@ -43,6 +50,8 @@ app = FastAPI(
     version=settings.app_version,
     lifespan=lifespan,
 )
+
+app.include_router(auth_router)
 
 
 @app.get("/health", tags=["Infrastructure"])

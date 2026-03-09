@@ -9,42 +9,22 @@ No incluye lógica de negocio — solo infraestructura de testing.
 
 from __future__ import annotations
 
-import asyncio
-from collections.abc import AsyncGenerator, Generator
+from collections.abc import AsyncGenerator
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 import pytest_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
-# ============================================================
-# Event Loop Fixture
-# ============================================================
-
-
-@pytest.fixture(scope="session")
-def event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
-    """Crea un event loop de sesión para todas las pruebas async.
-
-    Scope 'session' evita recrear el loop por cada test,
-    mejorando el rendimiento de la suite.
-
-    Yields:
-        asyncio.AbstractEventLoop: Event loop compartido.
-    """
-    policy = asyncio.get_event_loop_policy()
-    loop = policy.new_event_loop()
-    yield loop
-    loop.close()
-
+from app.domain.entities.user import KycStatus
 
 # ============================================================
 # MongoDB Test Fixtures
 # ============================================================
 
 
-@pytest_asyncio.fixture(scope="session")
-async def mongo_client() -> AsyncGenerator[AsyncIOMotorClient, None]:  # type: ignore[type-arg]
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
+async def mongo_client() -> AsyncGenerator[AsyncIOMotorClient, None]:
     """Cliente Motor conectado a la instancia de MongoDB de tests.
 
     Usa el puerto 27018 (servicio mongodb-test en docker-compose.yml).
@@ -53,7 +33,7 @@ async def mongo_client() -> AsyncGenerator[AsyncIOMotorClient, None]:  # type: i
     Yields:
         AsyncIOMotorClient: Cliente de MongoDB async.
     """
-    client: AsyncIOMotorClient = AsyncIOMotorClient(  # type: ignore[type-arg]
+    client: AsyncIOMotorClient = AsyncIOMotorClient(
         "mongodb://admin:admin@localhost:27018",
         serverSelectionTimeoutMS=5000,
     )
@@ -64,10 +44,10 @@ async def mongo_client() -> AsyncGenerator[AsyncIOMotorClient, None]:  # type: i
         client.close()
 
 
-@pytest_asyncio.fixture()
+@pytest_asyncio.fixture(loop_scope="session")
 async def test_db(
-    mongo_client: AsyncIOMotorClient,  # type: ignore[type-arg]
-) -> AsyncGenerator[AsyncIOMotorDatabase, None]:  # type: ignore[type-arg]
+    mongo_client: AsyncIOMotorClient,
+) -> AsyncGenerator[AsyncIOMotorDatabase, None]:
     """Base de datos limpia para cada test.
 
     Crea una DB y la limpia tras cada test,
@@ -80,7 +60,7 @@ async def test_db(
         AsyncIOMotorDatabase: Base de datos de test limpia.
     """
     db_name = "billetera_db_test"
-    db: AsyncIOMotorDatabase = mongo_client[db_name]  # type: ignore[type-arg]
+    db: AsyncIOMotorDatabase = mongo_client[db_name]
     yield db
     collections = await db.list_collection_names()
     for collection_name in collections:
@@ -127,7 +107,7 @@ def mock_kyc_verification() -> MagicMock:
         MagicMock: Mock que simula verificación KYC aprobada.
     """
     mock = MagicMock()
-    mock.verify = AsyncMock(return_value=True)
+    mock.verify = AsyncMock(return_value=KycStatus.PENDING)
     return mock
 
 

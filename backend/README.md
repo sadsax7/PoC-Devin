@@ -9,8 +9,7 @@ backend/
 │   │   ├── entities/        # Entidades con identidad
 │   │   ├── value_objects/   # Objetos inmutables por valor
 │   │   ├── services/        # Servicios de dominio
-│   │   ├── ports/           # Interfaces (contratos)
-│   │   └── repositories/    # Interfaces de repositorios
+│   │   └── ports/           # Interfaces (contratos / repositorios)
 │   ├── application/         # Orquestación
 │   │   ├── use_cases/       # Casos de uso
 │   │   └── dtos/            # Data Transfer Objects

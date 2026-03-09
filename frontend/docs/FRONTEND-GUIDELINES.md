@@ -467,4 +467,59 @@ npm run quality:check
 - Al agregar nuevas capacidades de seguridad (ej. gestión de dispositivos, alertas), hacerlo siempre:
   - Con nuevos hooks + organisms.
   - Respetando Atomic Design y evitando lógica ad‑hoc en páginas.
+
+---
+
+## Anexo: Herramientas de Testing y Ejección (Node v24+)
+
+> **Fecha de decisión:** Sprint 1 — HU-FE-00  
+> **Aprobado por:** Tech Lead  
+> **Motivo:** Compatibilidad con ESM nativo y TypeScript strict en Node >= 20
+
+### A.1. Migración nyc → c8
+
+| Aspecto | Antes (deprecado) | Ahora (oficial) |
+|---------|-------------------|------------------|
+| **Coverage tool** | `nyc` (^17.1.0) | `c8` (V8-nativo) |
+| **TypeScript loader** | `ts-node` | `tsx` |
+| **Compatibilidad ESM** | Parcial (requería flags) | Nativa |
+| **Configuración** | `.nycrc.json` | `package.json` → campo `c8` |
+
+### A.2. Scripts de referencia (`package.json`)
+
+Los siguientes scripts en `package.json` son la **fuente de verdad** para ejecutar tests:
+
+```bash
+npm test              # Mocha con tsx loader — ejecución rápida
+npm run test:coverage # c8 + Mocha — genera reporte con umbrales ≥ 85%
+```
+
+### A.3. Configuración de Mocha (`.mocharc.json`)
+
+```jsonc
+{
+  "extension": ["ts", "tsx"],
+  "spec": "tests/**/*.spec.{ts,tsx}",
+  "require": ["tsx"],
+  "timeout": 10000
+}
+```
+
+### A.4. Umbrales de cobertura
+
+Configurados en `package.json` bajo el campo `c8`:
+
+| Métrica | Umbral mínimo |
+|---------|---------------|
+| Lines | 85% |
+| Functions | 85% |
+| Branches | 85% |
+| Statements | 85% |
+
+### A.5. Regla para agentes de IA
+
+- **NUNCA** instalar ni referenciar `nyc`, `ts-node` o `istanbul` en este proyecto.
+- **SIEMPRE** usar los scripts de `package.json` para ejecutar tests, no comandos directos.
+- Si un agente encuentra referencias a `nyc` en documentación legacy, debe ignorarlas y seguir este anexo.
+- La herramienta de coverage es `c8` y el loader de TypeScript es `tsx`. Sin excepciones.
 ```

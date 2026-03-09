@@ -50,7 +50,10 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "PT"]
-ignore = ["S101"]
+ignore = ["S101", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -84,7 +87,13 @@ no_implicit_optional = true
 strict_equality = true
 warn_redundant_casts = true
 warn_unused_ignores = true
+explicit_package_bases = true
+mypy_path = "."
 
 [[tool.mypy.overrides]]
 module = ["motor.*", "bson.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disable_error_code = ["attr-defined"]
